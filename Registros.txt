@@ -1,4 +1,4 @@
-;0
-Golduck;Vivo
-
+da;0
+Psyduck;Vivo
+Whiscash;Vivo
 Froslass;Vivo

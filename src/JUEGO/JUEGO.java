@@ -11,11 +11,12 @@ import java.util.random.*;
 
 public class JUEGO {
 	public static void main(String[] args) throws IOException {
+	String nombre = "";
 File registros = new File("Registros.txt");
 File pokedex = new File("Pokedex.txt");		
 		
 Random ran = new Random();
-BufferedWriter escritor = new BufferedWriter(new FileWriter("Registros.txt"));
+BufferedWriter escritor = new BufferedWriter(new FileWriter("Registros.txt",true));
 		Scanner scanner = new Scanner(System.in);
 		
 
@@ -41,13 +42,16 @@ BufferedWriter escritor = new BufferedWriter(new FileWriter("Registros.txt"));
 	switch (respuesta) {
 
 	case 1:
-
+		Scanner primerlectorregistro = new Scanner(registros);
+		String linea = primerlectorregistro.nextLine();
+		
+		
 		
 
 		break;
 
 	case 2:
-
+		escritor = new BufferedWriter(new FileWriter("Registros.txt"));
 
 		System.out.println("¿Estas seguro de iniciar una nueva partida? Se borraran todos tus datos anteriores\nSI|NO");
 
@@ -79,9 +83,10 @@ BufferedWriter escritor = new BufferedWriter(new FileWriter("Registros.txt"));
 
 		System.out.println("ROSS: ¡Hola! ¡Bienvenido al mundo de los POKÉMON! ¡Mi nombre es Eric Ross! ¡La gente me llama el JEFE DE CARRERA POKÉMON! \n¡Este mundo está habitado por criaturas llamadas POKÉMON! Para algunas personas, los POKÉMON son mascotas. Otros los usan para pelear. \nYo... estudio a los POKÉMON como profesión. Primero, ¿cuál es tu nombre?");
 
-		String nombre = scanner.nextLine();
-		JUGADOR jugador = new JUGADOR(nombre);
-		escritor.write(nombre+";"+0);
+		 nombre = scanner.nextLine();
+		 
+		
+		escritor.write(nombre+";"+0+"\n");
 		escritor.flush();
 		System.out.println("ROSS:"+nombre+" ¡Tu propia leyenda POKÉMON está a punto de desarrollarse! ¡Te espera un mundo de sueños y aventuras con POKÉMON! ¡Vamos!");
 
@@ -93,8 +98,15 @@ BufferedWriter escritor = new BufferedWriter(new FileWriter("Registros.txt"));
 		
 		
 		
-		while(true) {
 		
+	default:
+
+		break;
+
+	}
+	JUGADOR jugador = new JUGADOR(nombre,0,null);
+while(true) {
+		nombre = jugador.getnombre();
 		FUNCIONES.menu(nombre);
 		int opcion = FUNCIONES.pedirOpcionValida(scanner, 1, 8);
 		switch (opcion) {
@@ -107,13 +119,7 @@ BufferedWriter escritor = new BufferedWriter(new FileWriter("Registros.txt"));
 			registroslector.nextLine();
 			if (!registroslector.hasNextLine()) {System.out.println("No tienes ningun pokemon!");}
 			else{
-				while(registroslector.hasNextLine() && contador <6) 
-			{
-					String linea = registroslector.nextLine();
-					if (!registroslector.hasNextLine()) {break;}
-					System.out.println(linea);
-				contador+=1;
-			}
+jugador.mostrarPokemons();
 			}
 			break;
 		case 2:
@@ -136,6 +142,7 @@ System.out.println("Donde deseas ir a explorar?");
 			int opcionzona = FUNCIONES.pedirOpcionValida(scanner, 1, 7);
 			if (opcionzona == contador) {break;}
 			 ArrayList<String> pokemoneshabitat = new ArrayList<>();
+			 ArrayList<Double> porcentajesaparicion = new ArrayList<>();
 			Scanner scapokedex = new Scanner(pokedex);
 			while (scapokedex.hasNextLine()) {
 				
@@ -144,12 +151,33 @@ System.out.println("Donde deseas ir a explorar?");
 				String habitat = partes[1];
 				if (habitat.equals(listahabitats.get(opcionzona-1))) {
 					pokemoneshabitat.add(partes[0]);
+					porcentajesaparicion.add(Double.parseDouble(partes[2]));
 				}
 				
 				
 			}
 			
-			String pokerandom = pokemoneshabitat.get(ran.nextInt(pokemoneshabitat.size()));
+			String pokerandom = "";
+			Double prob = ran.nextDouble();
+			Double probacumulada = 0.0;
+			
+			for (int i = 0; i < pokemoneshabitat.size(); i++) {
+				probacumulada += porcentajesaparicion.get(i);
+				 if (prob < probacumulada) {
+		                pokerandom = pokemoneshabitat.get(i);
+		                break;
+				 }
+				 
+			}
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			System.out.println("Oh! un "+pokerandom+" salvaje ha aparecido");
 System.out.println("Que deseas hacer?\r\n"
 		+ "\r\n"
@@ -158,27 +186,73 @@ System.out.println("Que deseas hacer?\r\n"
 int opcioncaptura = FUNCIONES.pedirOpcionValida(scanner, 1, 2);
 if (opcioncaptura ==2) {break;}
 else {
+	
+	
+	
+	
+	
+	
 	System.out.println(pokerandom+" Capturado exitosamente, ha sido agregado a tu equipo");
-	escritor.write("\n"+pokerandom+";Vivo\n");
+	escritor.write(pokerandom+";Vivo\n");
 	escritor.flush();
 	
 }
 escritor.flush();
-			break;
 
+jugador.agregarpokemon(POKEMON.buscarEnPokedex(pokerandom));            
+			break;
+		case 3:
+			
+			Scanner registrolector = new Scanner(registros);
+			 contador = 1;
+			 System.out.println("0)Salir");
+			 registrolector.nextLine();
+			 if (!registrolector.hasNextLine()) {System.out.println("No tienes ningun pokemon!");}
+				else{
+					 while (registrolector.hasNextLine()) {
+						 String linea = scanner.nextLine();
+						 String[] partes = linea.split(";");
+						 System.out.println(contador+")"+partes[0]);
+						 
+					 }
+					 
+					 System.out.println("Elija el Pokemon a ser cambiado: ");
+					 int opcion1 = FUNCIONES.pedirOpcionValida(scanner, 0, contador);
+					 System.out.println("Elija el Pokemon de cambiado: ");
+					 int opcion2 = FUNCIONES.pedirOpcionValida(scanner, 0, contador);
+					 
+					 jugador.intercambiarPokemons(opcion1, opcion2);
+					 
+					 
+					 
+					 
+					 
+					 
+				}
+			 
+			 break;
+			 
+			 
+			
+			 
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 		default:
 			break;
-		}
+			}
 		
 		}
-	default:
 
-		break;
-
-	}
-		
-escritor.close();
-scanner.close();
 	}
 	
 	

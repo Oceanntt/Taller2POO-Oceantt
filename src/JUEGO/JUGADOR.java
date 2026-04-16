@@ -19,6 +19,9 @@ public ArrayList<POKEMON> pokemonsjugador;
 		return nombre;
 		
 	}
+	public int getmedallas() {
+		return medallas;
+	}
 	public void agregarpokemon(POKEMON elemento) {
 		pokemonsjugador.add(elemento);
 	}

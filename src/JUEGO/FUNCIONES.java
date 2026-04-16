@@ -40,11 +40,6 @@ public class FUNCIONES {
 
 	    return opcion;
 	}
-public double VerificarEfectividad(String tipo1,String tipo2) {
-	
-	
-	
-	
-}
+
 
 }

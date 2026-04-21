@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.random.*;
 
 public class JUEGO {
 	public static void main(String[] args) throws IOException {
@@ -15,6 +16,7 @@ File registros = new File("Registros.txt");
 File pokedex = new File("Pokedex.txt");	
 File gimnasios = new File("Gimnasios.txt");	
 JUGADOR jugador = null;
+TablaTipos tabla = new TablaTipos();
 		
 Random ran = new Random();
 BufferedWriter escritor = new BufferedWriter(new FileWriter("Registros.txt",true));
@@ -298,26 +300,144 @@ else {
 			int numpokemons = Integer.parseInt(partes[3]);
 			ArrayList<POKEMON> pokemonslider = new ArrayList<>();
 			for (int i = 0; i < numpokemons; i++) {
-				pokemonslider.add(POKEMON.buscarEnPokedex(partes[i+3]));
+				pokemonslider.add(POKEMON.buscarEnPokedex(partes[i+4]));
 			}
-			
+			GIMNASIO gimnasio = new GIMNASIO(lider,estado,num,pokemonslider);
 			
 					System.out.println("Desafiando a "+lider+"!!");
+					
+					POKEMON primerpokemon = FUNCIONES.primerPokemonVivo(registros);
+					if (primerpokemon == null) {
+						System.out.println("No tienes pokemons vivos para el combate!");
+						break;
+					}
+					
+					System.out.println(nombre + " Saca a " + primerpokemon.getNombre());
+					int contadorlider = 0;
+					while(true) {
+						if (contadorlider >= pokemonslider.size()) {
+							System.out.println("Lider "+lider+" ha sido derrotado!");
+							jugador.ganarmedalla();
+							Scanner lectorregistros2 = new Scanner(registros);
+							ArrayList<String> lineas = new ArrayList<>();
+							String linea2 = lectorregistros2.nextLine();
+							String[] partes2 = linea2.split(";");
+							partes2[1] = Integer.toString(jugador.getmedallas());
+							lineas.add(partes2[0]+";"+partes2[1]);
+							while (lectorregistros2.hasNextLine()) {
+								 linea2 = lectorregistros2.nextLine();
+								lineas.add(linea2);
+							}
+							BufferedWriter escritor2 = new BufferedWriter(new FileWriter(registros));
+							for (int i = 0; i < lineas.size(); i++) {
+								escritor2.write(lineas.get(i)+"\n");
+							}
+							escritor2.flush();
+							
+							
+							break;}
+						System.out.println(lider+" Saca a "+ (pokemonslider.get(contadorlider)).getNombre());
+					
+					
+	
+					System.out.println("Que deseas hacer?\n"
+							+ "1) Atacar\n"
+							+ "2) Cambiar de pokemon\n"
+							+ "3) Rendirse");
+					opcion = FUNCIONES.pedirOpcionValida(scanner, 1, 3);
+					if (opcion ==3) {
+						System.out.println("Has huido del combate");
+						break;
+					}
+					
+					
+					
+					
+					if (opcion==1) {
+						
+						double efectividad = tabla.verificarefectividad(primerpokemon, pokemonslider.get(contadorlider));
+						POKEMON pokemonlider = pokemonslider.get(contadorlider);
+						int stats1 = primerpokemon.getStats();
+						int stats2 = pokemonlider.getStats();
+						System.out.println(primerpokemon.getNombre()+": "+stats1);
+						System.out.println(pokemonlider.getNombre()+": "+stats2);
+						
+						
+						
+						
+						
+						
+						
+						if (efectividad == 0.5) {
+							System.out.println(primerpokemon.getNombre()+" Es debil contra " +(pokemonslider.get(contadorlider)).getNombre());
+							
+							
+						}
+						else if (efectividad == 2.0) {
+							System.out.println(primerpokemon.getNombre()+" Es fuerte contra " +(pokemonslider.get(contadorlider)).getNombre());
+							
+							
+						}
+						else {
+							System.out.println("No hay efectividad");
+						}
+						stats1 *= efectividad;
+						System.out.println(primerpokemon.getNombre()+": "+stats1);
+						System.out.println(pokemonlider.getNombre()+": "+stats2);
+						if (stats1>stats2) {
+							System.out.println(pokemonlider.getNombre()+" Fue debilitado!");
+							contadorlider +=1;
+						}
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+					}
 
+					
 			
 			
 			
 			
-			
+					}
 			
 			
 		default:
 			break;
+			
 			}
 		
 		}
 
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 
 	

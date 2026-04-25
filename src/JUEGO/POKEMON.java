@@ -39,7 +39,7 @@ public static POKEMON buscarEnPokedex(String nombreBuscado) throws FileNotFoundE
         if (partes[0].equals(nombreBuscado)) {
             String tipo = partes[9];
             int stats = 0;
-            for (int i = 3; i <8 ; i++) {
+            for (int i = 3; i <9 ; i++) {
             	stats += Integer.parseInt(partes[i]);
 				
 			}

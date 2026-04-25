@@ -1,6 +1,9 @@
 package JUEGO;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.InputMismatchException;
+
 import java.util.Scanner;
 
 public class FUNCIONES {
@@ -40,6 +43,22 @@ public class FUNCIONES {
 
 	    return opcion;
 	}
+	public static POKEMON primerPokemonVivo(File registros) throws FileNotFoundException {
+	    Scanner lector = new Scanner(registros);
 
+	    int contador = 0;
+	    while (lector.hasNextLine() && contador < 6) {
+	        String linea = lector.nextLine();
+	        String[] partes = linea.split(";");
+
+	        String nombrePokemon = partes[0];
+	        String estado = partes[1];
+
+	        if (estado.equals("Vivo")) {
+	            return POKEMON.buscarEnPokedex(nombrePokemon);  }
+	        contador+=1;
+	    }
+	    return null;
+	}
 
 }

@@ -1,13 +1,13 @@
 package JUEGO;
 import java.util.ArrayList;
 public class TablaTipos {
-	public enum TipoPokemon {
-	    NORMAL, FUEGO, AGUA, ELECTRICO, PLANTA, HIELO,
-	    LUCHA, VENENO, TIERRA, VOLADOR, PSIQUICO, BICHO,
-	    ROCA, FANTASMA, DRAGON, SINIESTRO, ACERO, HADA
-	}
-		
-	
+	ArrayList<String> tipos = new ArrayList<>(
+		    java.util.Arrays.asList(
+		        "Normal","Fuego","Agua","Planta","Electrico","Hielo",
+		        "Lucha","Veneno","Tierra","Volador","Psiquico","Bicho",
+		        "Roca","Fantasma","Dragon","Acero","Siniestro","Hada"
+		    )
+		    );
 		
 		
 
@@ -32,5 +32,23 @@ public class TablaTipos {
 		        {  1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 2.0, 1.0, 1.0, 0.5, 0.5 }, // SINIESTRO
 		        {  1.0, 0.5, 1.0, 1.0, 1.0, 1.0, 2.0, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 0.5, 2.0, 1.0 }  // HADA
 		    };
+public double verificarefectividad(POKEMON pokemonjugador, POKEMON pokemonrival) {
+String tipojugador = pokemonjugador.getTipo();
+String tiporival = pokemonrival.getTipo();
+int indice1 = tipos.indexOf(tipojugador);
+int indice2 = tipos.indexOf(tiporival);
+double efectividad = EFECTIVIDAD[indice1][indice2];
+return efectividad;
 
+	
+	
+	
+}
+	 
+	 
+	 
+	 
+	 
+	 
+	 
 }

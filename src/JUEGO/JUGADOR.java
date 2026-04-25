@@ -10,7 +10,7 @@ public ArrayList<POKEMON> pokemonsjugador;
 	public JUGADOR(String nombre,int medallas, ArrayList<POKEMON> pokemonsjugador) {
 		this.nombre = nombre;
 		this.medallas = medallas;
-		this.pokemonsjugador = new ArrayList<>();
+		this.pokemonsjugador = pokemonsjugador;
 	}
 	public void ganarmedalla() {
 		medallas += 1;
@@ -41,5 +41,7 @@ public ArrayList<POKEMON> pokemonsjugador;
 	    POKEMON aux = pokemonsjugador.get(i);
 	    pokemonsjugador.set(i, pokemonsjugador.get(j));
 	    pokemonsjugador.set(j, aux);
+	    
+	    
 	}
 }

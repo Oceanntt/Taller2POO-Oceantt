@@ -276,10 +276,20 @@ else {
 		case 4:
 			Scanner scgimnasios = new Scanner(gimnasios);
 			System.out.println("0)Regresar");
+			contador = 0;
 			while (scgimnasios.hasNextLine()) {
 				String linea = scgimnasios.nextLine();
 				String[] partes = linea.split(";");
-				System.out.println(partes[0]+")"+partes[1]+": "+partes[2]);
+					if (contador<jugador.getmedallas()) {
+						System.out.println(partes[0]+")"+partes[1]+": Derrotado");
+						
+					}
+					else {
+						System.out.println(partes[0]+")"+partes[1]+": "+partes[2]);
+					}
+					contador +=1;
+
+				
 				
 			}
 			opcion = FUNCIONES.pedirOpcionValida(scanner, 0, 8);
@@ -287,6 +297,11 @@ else {
 			if (opcion > jugador.getmedallas() +1) {
 				System.out.println("Ross: Cada cosa a su momento, debes derrotar a los otros lideres primero");
 				break;}
+			if (opcion < jugador.getmedallas()+1) {
+				
+				System.out.println("Ya has derrotado a este lider!");
+				break;
+			}
 			
 			scgimnasios = new Scanner(gimnasios);
 			for (int i = 1; i < opcion; i++) {
@@ -312,9 +327,10 @@ else {
 						break;
 					}
 					
-					System.out.println(nombre + " Saca a " + primerpokemon.getNombre());
+					
 					int contadorlider = 0;
 					while(true) {
+						System.out.println(nombre + " Saca a " + primerpokemon.getNombre());
 						if (contadorlider >= pokemonslider.size()) {
 							System.out.println("Lider "+lider+" ha sido derrotado!");
 							jugador.ganarmedalla();
@@ -329,6 +345,7 @@ else {
 								lineas.add(linea2);
 							}
 							BufferedWriter escritor2 = new BufferedWriter(new FileWriter(registros));
+
 							for (int i = 0; i < lineas.size(); i++) {
 								escritor2.write(lineas.get(i)+"\n");
 							}
@@ -387,6 +404,44 @@ else {
 						if (stats1>stats2) {
 							System.out.println(pokemonlider.getNombre()+" Fue debilitado!");
 							contadorlider +=1;
+						}
+						else {
+							System.out.println(primerpokemon.getNombre()+" Fue debilitado!");
+							
+							Scanner lector = new Scanner(registros);
+							ArrayList<String> nombrep = new ArrayList<>();
+							ArrayList<String> estadop = new ArrayList<>();
+							String linea1 = lector.nextLine();
+							while (lector.hasNextLine()) {
+								String Linea =  lector.nextLine();
+								String[] Partes = Linea.split(";");
+								nombrep.add(Partes[0]);
+								estadop.add(Partes[1]);
+							}
+							for (int i = 0; i < nombrep.size(); i++) {
+								if (nombrep.get(i).equals(primerpokemon.getNombre())) {
+									estadop.set(i, "Debilitado");
+								}
+							}
+							
+							
+							
+							BufferedWriter escritors = new BufferedWriter(new FileWriter(registros));
+							escritors.write(linea1+"\n");
+							for (int i = 0; i < estadop.size(); i++) {
+								escritors.write(nombrep.get(i)+";"+estadop.get(i)+"\n");
+							}
+							escritors.flush();
+							
+							primerpokemon = FUNCIONES.primerPokemonVivo(registros);
+							if (primerpokemon == null) {
+							    System.out.println("Todos tus Pokémon han sido derrotados...");
+							    System.out.println("Has perdido el combate.");
+							    break;
+							}
+							
+							
+							
 						}
 						
 						

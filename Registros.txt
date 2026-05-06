@@ -1,4 +1,7 @@
-da;0
-Psyduck;Vivo
-Whiscash;Vivo
-Froslass;Vivo
+da;8
+Sceptile;Debilitado
+Samurott;Debilitado
+MegaBlaziken;Debilitado
+Lucario;Debilitado
+Gengar;Debilitado
+Mewtwo;Debilitado

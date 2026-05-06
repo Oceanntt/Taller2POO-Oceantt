@@ -8,16 +8,24 @@ public class POKEMON {
 	String nombre;
  String tipo;
 int stats;
+ boolean vivo;
 
 
-public POKEMON(String nombre, String tipo,int stats) {
+public POKEMON(String nombre, String tipo,int stats,boolean vivo) {
 	this.nombre = nombre;
 	this.tipo = tipo;
 	this.stats = stats;
+	this.vivo = vivo;
 	
 }
 public String getNombre() {
     return nombre;
+}
+public boolean isvivo() {
+	return vivo;
+}
+public void derrotado() {
+	vivo = false;
 }
 
 public String getTipo() {
@@ -28,7 +36,7 @@ public int getStats() {
     return stats;
 }
 
-public static POKEMON buscarEnPokedex(String nombreBuscado) throws FileNotFoundException {
+public static POKEMON buscarEnPokedex(String nombreBuscado,String estado) throws FileNotFoundException {
     File pokedex = new File("Pokedex.txt");
     Scanner sc = new Scanner(pokedex);
 
@@ -45,7 +53,11 @@ public static POKEMON buscarEnPokedex(String nombreBuscado) throws FileNotFoundE
 			}
 
             sc.close();
-            return new POKEMON(nombreBuscado, tipo, stats);
+            if (estado.equals("Vivo")) {
+            return new POKEMON(nombreBuscado, tipo, stats,true);
+            }
+            else;
+            return new POKEMON(nombreBuscado, tipo, stats,false);
         }
  
     }

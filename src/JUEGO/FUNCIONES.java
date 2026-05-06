@@ -45,9 +45,9 @@ public class FUNCIONES {
 	}
 	public static POKEMON primerPokemonVivo(File registros) throws FileNotFoundException {
 	    Scanner lector = new Scanner(registros);
-
+	    lector.nextLine();
 	    int contador = 0;
-	    while (lector.hasNextLine() && contador < 6) {
+	    while (lector.hasNextLine() && contador < 7) {
 	        String linea = lector.nextLine();
 	        String[] partes = linea.split(";");
 
@@ -55,9 +55,22 @@ public class FUNCIONES {
 	        String estado = partes[1];
 
 	        if (estado.equals("Vivo")) {
-	            return POKEMON.buscarEnPokedex(nombrePokemon);  }
+	            return POKEMON.buscarEnPokedex(nombrePokemon,"Vivo");  }
 	        contador+=1;
 	    }
+	    return null;
+	}
+	public static POKEMON primerPokemonVivoJugador(JUGADOR jugador) {
+
+	    for (int i = 0; i < jugador.pokemonsjugador.size() && i < 6; i++) {
+
+	        POKEMON p = jugador.pokemonsjugador.get(i);
+
+	        if (p.isvivo()) {
+	            return p;
+	        }
+	    }
+
 	    return null;
 	}
 

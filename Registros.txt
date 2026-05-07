@@ -1,7 +1,0 @@
-da;8
-Sceptile;Debilitado
-Samurott;Debilitado
-MegaBlaziken;Debilitado
-Lucario;Debilitado
-Gengar;Debilitado
-Mewtwo;Debilitado

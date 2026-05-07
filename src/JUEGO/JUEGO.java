@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.random.*;
 
 public class JUEGO {
 	public static void main(String[] args) throws IOException {
@@ -116,7 +115,7 @@ BufferedWriter escritor = new BufferedWriter(new FileWriter("Registros.txt",true
 		System.out.println("PULSE ENTER PARA CONTINUAR");
 
 		scanner.nextLine();	
-		 jugador = new JUGADOR(nombre,0,null);
+		 jugador = new JUGADOR(nombre,0,new ArrayList<>());
 		
 		
 		

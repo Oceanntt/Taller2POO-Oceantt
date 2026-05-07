@@ -35,6 +35,10 @@ public String getTipo() {
 public int getStats() {
     return stats;
 }
+public void revivir() {
+	this.vivo = true;
+	
+}
 
 public static POKEMON buscarEnPokedex(String nombreBuscado,String estado) throws FileNotFoundException {
     File pokedex = new File("Pokedex.txt");

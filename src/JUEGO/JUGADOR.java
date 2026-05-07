@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class JUGADOR {
@@ -23,6 +24,9 @@ public ArrayList<POKEMON> pokemonsjugador;
 	public String getnombre() {
 		return nombre;
 		
+	}
+	public ArrayList<POKEMON> getPokemonsjugador() {
+		return pokemonsjugador;
 	}
 	public int getmedallas() {
 		return medallas;
@@ -80,5 +84,12 @@ public ArrayList<POKEMON> pokemonsjugador;
 		    POKEMON aux = pokemonsjugador.get(i);
 		    pokemonsjugador.set(i, pokemonsjugador.get(j));
 		    pokemonsjugador.set(j, aux);
+	}
+	
+	
+	public void revivir() {
+		for (int i = 0; i < pokemonsjugador.size(); i++) {
+			pokemonsjugador.get(i).revivir();
+		}
 	}
 }

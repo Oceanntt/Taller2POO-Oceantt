@@ -47,7 +47,15 @@ BufferedWriter escritor = new BufferedWriter(new FileWriter("Registros.txt",true
 
 	case 1:
 		Scanner primerlectorregistro = new Scanner(registros);
-		String linea = primerlectorregistro.nextLine();
+		String linea = "";
+		try {
+			 linea = primerlectorregistro.nextLine();
+		} catch (Exception e) {
+			System.out.println("No tienes ninguna partida");
+			return;
+		}
+		
+
 		String[] partes = linea.split(";");
 	 nombre = partes[0];
 		int medallas = Integer.parseInt(partes[1]);
@@ -66,7 +74,7 @@ BufferedWriter escritor = new BufferedWriter(new FileWriter("Registros.txt",true
 		break;
 
 	case 2:
-		escritor = new BufferedWriter(new FileWriter("Registros.txt"));
+		
 
 		System.out.println("¿Estas seguro de iniciar una nueva partida? Se borraran todos tus datos anteriores\nSI|NO");
 
@@ -78,9 +86,9 @@ BufferedWriter escritor = new BufferedWriter(new FileWriter("Registros.txt",true
 
 	borrarpartida = scanner.nextLine();
 
-		if (borrarpartida.equals("NO")) {return;}
+		if (borrarpartida.equals("NO")||borrarpartida.equals("no")) {return;}
 
-		else if (borrarpartida.equals("SI")) {
+		else if (borrarpartida.equals("SI")||borrarpartida.equals("si")) {
 
 			System.out.println("Creando una nueva partida...");
 
@@ -91,7 +99,7 @@ BufferedWriter escritor = new BufferedWriter(new FileWriter("Registros.txt",true
 		else {System.out.println("Respuesta incorrecta SI|NO");}
 
 		}
-
+		escritor = new BufferedWriter(new FileWriter("Registros.txt"));
 		System.out.println("PULSE ENTER PARA CONTINUAR");
 
 		scanner.nextLine();	
@@ -126,7 +134,12 @@ while(true) {
 		int opcion = FUNCIONES.pedirOpcionValida(scanner, 1, 8);
 		switch (opcion) {
 		case 8:
+			System.out.println("Guardado con exito!");
+			System.out.println("Dejando la partida...");
 			return;
+		case 7:
+			System.out.println("Partida guardada con exito!");
+			break;
 		case 1:
 			int contador = 0;
 			System.out.println("Equipo: ");
@@ -331,7 +344,7 @@ else {
 					
 					int contadorlider = 0;
 					while(true) {
-						System.out.println(nombre + " Saca a " + primerpokemon.getNombre());
+						System.out.println(nombre + " Saca a " + primerpokemon.getNombre()+"|"+primerpokemon.getTipo());
 						if (contadorlider >= pokemonslider.size()) {
 							System.out.println("Lider "+lider+" ha sido derrotado!");
 							jugador.ganarmedalla();
@@ -354,7 +367,7 @@ else {
 							
 							
 							break;}
-						System.out.println(lider+" Saca a "+ (pokemonslider.get(contadorlider)).getNombre());
+						System.out.println(lider+" Saca a "+ (pokemonslider.get(contadorlider)).getNombre()+"|"+(pokemonslider.get(contadorlider)).getTipo());
 					
 					
 	
@@ -456,9 +469,15 @@ else {
 					else if (opcion ==2) {
 						jugador.mostrarPokemons();
 						System.out.print("Que pokemon entrara? (n): ");
-						opcion = FUNCIONES.pedirOpcionValida(scanner, 2, 6);
-						jugador.intercambiarPokemons(0, opcion-1,registros);
-						primerpokemon = (jugador.pokemonsjugador.get(0));
+						opcion = FUNCIONES.pedirOpcionValida(scanner, 1, 6);
+						 POKEMON elegido = jugador.pokemonsjugador.get(opcion - 1);
+						    if (!elegido.isvivo()) {
+						        System.out.println("Ese Pokémon está debilitado!");
+						    }
+						    else {
+						        jugador.intercambiarPokemons(0, opcion - 1,registros);
+						        primerpokemon = jugador.pokemonsjugador.get(0);
+						    }
 
 						
 					}
@@ -527,7 +546,7 @@ else {
 							break;
 						}
 				
-						System.out.println(altomando+" Saca a "+ (pokemonaltomando.get(contadorpokemonliga)).getNombre());
+						System.out.println(altomando+" Saca a "+ (pokemonaltomando.get(contadorpokemonliga)).getNombre()+"|"+(pokemonaltomando.get(contadorpokemonliga)).getTipo());
 						
 		
 						
@@ -627,20 +646,42 @@ else {
 							        jugador.intercambiarPokemons(0, opcion - 1,registros);
 							        primerpokemon = jugador.pokemonsjugador.get(0);
 							    }
-
-							
 						}
 						
 					}
 			
 			}
 			
+			break;
 			
 			
 			
+		case 6:
+			if (jugador.getPokemonsjugador()!=null) {
 			
 			
+			jugador.revivir();
 			
+			Scanner curador = new Scanner(registros);
+			ArrayList<String> lineas = new ArrayList<>();
+			
+			
+			lineas.add(curador.nextLine());
+			
+			
+			while (curador.hasNextLine()) {
+				 linea = curador.nextLine();
+				partes = linea.split(";");
+				lineas.add(partes[0]+";Vivo");
+			}
+			BufferedWriter cura = new BufferedWriter(new FileWriter(registros));
+			for (int i = 0; i < lineas.size(); i++) {
+				cura.write(lineas.get(i)+"\n");
+			}
+			cura.flush();
+			System.out.println("Pokemons curados con exito!");
+			}
+			else {System.out.println("No tienes pokemons para curar!");}
 		default:
 			break;
 			

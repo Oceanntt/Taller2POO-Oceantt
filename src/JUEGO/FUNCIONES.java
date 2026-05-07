@@ -47,7 +47,7 @@ public class FUNCIONES {
 	    Scanner lector = new Scanner(registros);
 	    lector.nextLine();
 	    int contador = 0;
-	    while (lector.hasNextLine() && contador < 7) {
+	    while (lector.hasNextLine() && contador < 6) {
 	        String linea = lector.nextLine();
 	        String[] partes = linea.split(";");
 
